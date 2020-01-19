@@ -1,0 +1,94 @@
+.TH man sip "20 Jan 2014" "sip" "sip"
+.SH NAME
+sip \- The SIP command line
+.SH SYNOPSIS
+sip [option] [specification]
+.SH DESCRIPTION
+SIP is a tool for automatically generating Python bindings for C and C++ libraries.
+SIP was originally developed in 1998 for PyQt - the Python bindings for the Qt GUI toolkit -
+but is suitable for generating bindings for any C or C++ library.
+.SH OPTIONS
+specification is the name of the specification file for the module. If it is omitted then stdin is used.
+The full set of command line options is:
+
+.TP
+-h
+Display a help message.
+.TP
+-V
+Display the SIP version number.
+.TP
+-a <FILE>
+The name of the QScintilla API file to generate. This file contains a description of the module API
+in a form that the QScintilla editor component can use for auto-completion and call tips.
+(The file may also be used by the SciTE editor but must be sorted first.)
+By default the file is not generated.
+.TP
+-b <FILE>
+The name of the build file to generate. This file contains the information about the module needed by the SIP build system to generate a platform and compiler specific Makefile for the module. By default the file is not generated.
+.TP
+-c <DIR>
+The name of the directory (which must exist) into which all of the generated C or C++ code is placed. By default no code is generated.
+.TP
+-d <FILE>
+Deprecated since version 4.12: Use the -X option instead. The name of the documentation file to generate.
+Documentation is included in specification files using the %Doc and %ExportedDoc directives.
+By default the file is not generated.
+.TP
+-e
+Support for C++ exceptions is enabled. This causes all calls to C++ code to be enclosed in try/catch blocks and C++ exceptions to be converted to Python exceptions. By default exception support is disabled.
+.TP
+-g
+The Python GIL is released before making any calls to the C/C++ library being wrapped and reacquired afterwards. See The Python Global Interpreter Lock and the ReleaseGIL and HoldGIL annotations.
+.TP
+-I <DIR>
+The directory is added to the list of directories searched when looking for a specification file given in an %Include or %Import directive. Directory separators must always be /. This option may be given any number of times.
+.TP
+-j <NUMBER>
+The generated code is split into the given number of files. This makes it easier to use the parallel build facility of most modern implementations of make. By default 1 file is generated for each C structure or C++ class.
+.TP
+-k
+New in version 4.10.
+Deprecated since version 4.12: Use the keyword_arguments="All" %Module directive argument instead.
+All functions and methods will, by default, support passing parameters using the Python keyword argument syntax.
+.TP
+-o
+New in version 4.10.
+Docstrings will be automatically generated that describe the signature of all functions, methods and constructors.
+.TP
+-p <MODULE>
+The name of the %ConsolidatedModule which will contain the wrapper code for this component module.
+.TP
+-P
+New in version 4.10.
+By default SIP generates code to provide access to protected C++ functions from Python. On some platforms (notably Linux, but not Windows) this code can be avoided if the protected keyword is redefined as public during compilation. This can result in a significant reduction in the size of a generated Python module. This option disables the generation of the extra code.
+.TP
+-r
+Debugging statements that trace the execution of the bindings are automatically generated. By default the statements are not generated.
+.TP
+-s <SUFFIX>
+The suffix to use for generated C or C++ source files. By default .c is used for C and .cpp for C++.
+.TP
+-t <TAG>
+The SIP version tag (declared using a %Timeline directive) or the SIP platform tag (declared using the %Platforms directive) to generate code for. This option may be given any number of times so long as the tags do not conflict.
+.TP
+-T
+By default the generated C and C++ source and header files include a timestamp specifying when they were generated. This option disables the timestamp so that the contents of the generated files remain constant for a particular version of SIP.
+.TP
+-w
+The display of warning messages is enabled. By default warning messages are disabled.
+.TP
+-x <FEATURE>
+The feature (declared using the %Feature directive) is disabled.
+.TP
+-X <ID:FILE>
+New in version 4.12.
+The extract (defined with the %Extract directive) with the identifier ID is written to the file FILE.
+.TP
+-z <FILE>
+The name of a file containing more command line options.
+.SH AUTHOR
+.TP
+Phil Thompson <phil@riverbankcomputing.com>
+.TP
+Than Ngo <than@redhat.com>, create this manpage

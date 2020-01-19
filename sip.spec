@@ -11,7 +11,7 @@
 Summary: SIP - Python/C++ Bindings Generator
 Name: sip
 Version: 4.14.6
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 # sipgen/parser.{c.h} is GPLv3+ with exceptions (bison)
 License: GPLv2 or GPLv3 and (GPLv3+ with exceptions)
@@ -19,6 +19,8 @@ Group: Development/Tools
 Url: http://www.riverbankcomputing.com/software/sip/intro 
 #URL: http://sourceforge.net/projects/pyqt/
 Source0:  http://downloads.sourceforge.net/pyqt/sip-%{version}%{?snap:-snapshot-%{snap}}.tar.gz
+# man page
+Source1: sip.1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 ## upstreamable patches
@@ -28,7 +30,7 @@ Patch50: sip-4.12.1-no_strip.patch
 Patch51: sip-4.13.3-no_rpath.patch
 
 # extracted from sip.h, SIP_API_MAJOR_NR SIP_API_MINOR_NR defines
-Source1: macros.sip
+Source2: macros.sip
 %global _sip_api_major 9
 %global _sip_api_minor 2
 %global _sip_api %{_sip_api_major}.%{_sip_api_minor}
@@ -149,9 +151,11 @@ popd
 make install DESTDIR=%{buildroot}
 mkdir -p %{buildroot}%{_datadir}/sip
 
-# Macros used by -devel subpackages:
-install -D -p -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/rpm/macros.sip
+# install manpage
+install -D -p -m644 %{SOURCE1} %{buildroot}%{_mandir}/man1/sip.1
 
+# Macros used by -devel subpackages:
+install -D -p -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/rpm/macros.sip
 
 %clean
 rm -rf %{buildroot}
@@ -167,6 +171,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/sip
 %{_datadir}/sip/
+%{_mandir}/man1/sip*
 %{python_inc}/*
 
 %files macros
@@ -189,6 +194,15 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jan 30 2014 Than Ngo <than@redhat.com> - 4.14.6-4
+- add missing man page
+
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.14.6-3
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 4.14.6-2
+- Mass rebuild 2013-12-27
+
 * Sun Apr 21 2013 Rex Dieter <rdieter@fedoraproject.org> 4.14.6-1
 - sip-4.14.6
 
@@ -333,7 +347,7 @@ rm -rf %{buildroot}
 * Fri Nov 20 2009 Rex Dieter <rdieter@fedoraproject.org> - 4.9.2-1
 - sip-4.9.2
 
-* Tue Nov 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 4.9.1-3
+* Mon Nov 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 4.9.1-3
 - move sip binary to -devel 
 
 * Mon Nov 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 4.9.1-2
